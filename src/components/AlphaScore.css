@@ -688,3 +688,161 @@
     background-color: rgba(0, 0, 0, 0.05);
     color: #333;
 }
+
+/* 移动端适配样式 */
+@media screen and (max-width: 768px) {
+    .token-swap-container {
+        padding: 20px 10px;
+    }
+
+    .token-selection-row {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .swap-section {
+        padding: 12px;
+    }
+
+    .fees-section {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .dex-select {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .dex-button {
+        flex: 1;
+        min-width: 120px;
+        justify-content: center;
+        padding: 8px 12px;
+    }
+
+    .token-list-modal {
+        width: 95%;
+        max-height: 80vh;
+    }
+
+    .token-list {
+        max-height: 60vh;
+    }
+
+    .token-item {
+        padding: 12px;
+    }
+
+    .deadline-table-container {
+        overflow-x: auto;
+    }
+
+    .deadline-table {
+        min-width: 600px;
+    }
+
+    .jito-tip-section {
+        padding: 12px;
+    }
+
+    .jito-tip-presets {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .jito-tip-presets button {
+        flex: 1;
+        min-width: 80px;
+    }
+
+    .wallet-info {
+        padding: 12px;
+        font-size: 12px;
+    }
+
+    .approve-button {
+        padding: 16px;
+        font-size: 16px;
+    }
+}
+
+/* 小屏幕手机优化 */
+@media screen and (max-width: 480px) {
+    .token-swap-container {
+        padding: 16px 8px;
+    }
+
+    .swap-section {
+        padding: 10px;
+    }
+
+    .token-info {
+        gap: 6px;
+    }
+
+    .token-logo {
+        width: 20px;
+        height: 20px;
+    }
+
+    .amount-input {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .dex-button {
+        min-width: 100px;
+        padding: 6px 10px;
+        font-size: 14px;
+    }
+
+    .fee-box {
+        padding: 12px;
+    }
+
+    .fee-value {
+        font-size: 14px;
+    }
+
+    .jito-tip-header {
+        font-size: 12px;
+    }
+
+    .tooltip-text {
+        font-size: 11px;
+        padding: 6px 10px;
+    }
+}
+
+/* 确保模态框在移动端正确显示 */
+@media screen and (max-width: 768px) {
+    .modal-overlay {
+        padding: 0;
+    }
+
+    .token-list-header {
+        padding: 12px;
+    }
+
+    .token-list-header h3 {
+        font-size: 16px;
+    }
+
+    .search-input-wrapper {
+        margin: 8px 12px;
+    }
+
+    .search-input {
+        padding: 8px 32px 8px 32px;
+        font-size: 14px;
+    }
+
+    .token-symbol {
+        font-size: 14px;
+    }
+
+    .token-name {
+        font-size: 12px;
+    }
+}
