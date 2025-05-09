@@ -3,11 +3,10 @@ import { useAppKitAccount, useAppKitProvider } from '@reown/appkit/react';
 import { useAppKitConnection } from '@reown/appkit-adapter-solana/react';
 import { PublicKey, LAMPORTS_PER_SOL, VersionedTransaction, Transaction, SystemProgram } from "@solana/web3.js";
 import { ChevronDown, Wallet, Info, Search, Zap, Coins, Waves, ArrowRightLeft, RefreshCw } from 'lucide-react';
-import { QuoteResponse } from '@jup-ag/api';
-import { Token, COMMON_TOKENS, Alpha_Tokens } from '../constants/tokens';
-import { updateTokenData, getStoredTokens } from '../utils/tokenData';
+import { Token, Alpha_Tokens } from '../constants/tokens';
+import { updateTokenData } from '../utils/alphaTokenData';
 import { updateSolanaTokenData } from '../utils/solanaTokenData';
-import './TokenSwap.css';
+import './AlphaScore.css';
 import type { Provider } from '@reown/appkit-adapter-solana/react';
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
 
@@ -28,7 +27,7 @@ const DEX_OPTIONS: DEX[] = [
   { name: 'Orca', id: 'orca' },
 ];
 
-export const TokenSwap = () => {
+export const AlphaScore = () => {
   const ITEMS_PER_PAGE = 20;
   const [tokens, setTokens] = useState<Token[]>([]);
   const [solanaTokens, setSolanaTokens] = useState<Token[]>([]);
@@ -37,13 +36,10 @@ export const TokenSwap = () => {
   const [AlphaToken, setAlphaToken] = useState<Token | null>(null);
   const [backToken, setbackToken] = useState<Token | null>(null);
   const [selectedDex, setSelectedDex] = useState<DEX>(DEX_OPTIONS[0]);
-  const [amount, setAmount] = useState<string>('');
   const [jitoTip, setJitoTip] = useState<number>(0.00003);
   const { address, isConnected } = useAppKitAccount();
   const { connection } = useAppKitConnection();
   const { walletProvider } = useAppKitProvider<Provider>('solana');
-  const [estimatedOutput, setEstimatedOutput] = useState<string>('0');
-  const [quote, setQuote] = useState<QuoteResponse | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showTokenList, setShowTokenList] = useState<'from' | 'to' | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -62,13 +58,18 @@ export const TokenSwap = () => {
       isActive: false
     }
   ]);
+  const [fees, setFees] = useState({
+    gasFee: '0.05',
+    poolFee: '0.01',
+    jitoTip: jitoTip
+  });
 
   // 使用工具函数获取代币数据
   useEffect(() => {
     const loadTokens = async () => {
       try {
         // 使用 updateTokenData 获取最新数据（如果本地数据过期会自动更新）
-        const tokenData = await updateTokenData();
+        const tokenData = await updateTokenData(true);
         setTokens(tokenData);
         setFilteredTokens(tokenData);
         setDisplayedTokens(tokenData);
@@ -140,24 +141,6 @@ export const TokenSwap = () => {
     setSelectedDex(dex);
   };
 
-  const getQuote = async () => {
-    if (!amount || parseFloat(amount) <= 0 || !AlphaToken || !backToken) return;
-    
-    setIsLoading(true);
-    try {
-      const response = await fetch(
-        `https://quote-api.jup.ag/v6/quote?inputMint=${AlphaToken.address}&outputMint=${backToken.address}&amount=${parseFloat(amount) * Math.pow(10, AlphaToken.decimals)}&slippageBps=50`
-      );
-      const data = await response.json();
-      setQuote(data);
-      setEstimatedOutput((data.outAmount / Math.pow(10, backToken.decimals)).toFixed(4));
-    } catch (error) {
-      console.error('Error fetching quote:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const executeApprove = async () => {
     if (!address || !AlphaToken || !connection || !walletProvider) return;
     
@@ -200,23 +183,6 @@ export const TokenSwap = () => {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (amount && parseFloat(amount) > 0 && AlphaToken && backToken) {
-      getQuote();
-    }
-  }, [amount, AlphaToken, backToken]);
-
-  const calculateEstimatedFees = () => {
-    return {
-      slippage: quote?.otherAmountThreshold ? `${(Number(quote.otherAmountThreshold) / LAMPORTS_PER_SOL).toFixed(5)}` : '0.00000',
-      serviceFee: '0.01',
-      jitoTip: jitoTip.toFixed(5),
-      estimatedOutput: estimatedOutput
-    };
-  };
-
-  const fees = calculateEstimatedFees();
 
   const loadMoreTokens = () => {
     const nextPage = page + 1;
@@ -396,14 +362,14 @@ export const TokenSwap = () => {
             <img src="/solana-sol-logo.png" alt="Solana" className="fee-icon" />
             预估 Gas 费消耗
           </div>
-          <div className="fee-value">{fees.slippage}</div>
+          <div className="fee-value">{fees.gasFee} SOL</div>
         </div>
         <div className="fee-box">
           <div className="fee-label">
             <img src="/solana-sol-logo.png" alt="Solana" className="fee-icon" />
             流动池费用
           </div>
-          <div className="fee-value">{fees.serviceFee} %</div>
+          <div className="fee-value">{fees.poolFee} %</div>
         </div>
         <div className="fee-box">
           <div className="fee-label">
@@ -417,7 +383,7 @@ export const TokenSwap = () => {
       <button 
         className="approve-button" 
         onClick={executeApprove}
-        disabled={!isConnected || !amount || isLoading || !AlphaToken || !backToken}
+        disabled={!isConnected || isLoading || !AlphaToken || !backToken}
       >
         {isLoading ? 'Loading...' : 'Approve'}
       </button>

@@ -3,7 +3,7 @@ import { solana, solanaTestnet, solanaDevnet } from '@reown/appkit/networks'
 import { useState } from 'react'
 import { metadata, projectId, solanaWeb3JsAdapter } from './config'
 import { Globe, TestTube, Wrench, Sun, Moon, Settings } from 'lucide-react'
-import { TokenSwap } from './components/TokenSwap'
+import { AlphaScore } from './components/AlphaScore'
 import './App.css'
 
 // Create modal
@@ -49,7 +49,7 @@ export function App() {
       <main className="app-main">
         <h2>Solana Alpha Suite</h2>
         <p>Track Solana Swaps for Zero Slippage Execution</p>
-        <TokenSwap />
+        <AlphaScore />
       </main>
     </div>
   )

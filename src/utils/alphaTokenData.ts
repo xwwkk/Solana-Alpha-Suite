@@ -46,8 +46,8 @@ export const fetchAndStoreTokens = async (): Promise<Token[]> => {
                 throw new Error('Invalid response format');
             }
 
-            // Process and return the token data
-            const processedTokens: Token[] = data.map(token => ({
+            // return the token data
+            const resultTokens: Token[] = data.map(token => ({
                 address: token.id,
                 symbol: token.symbol.toUpperCase(),
                 name: token.name,
@@ -58,7 +58,11 @@ export const fetchAndStoreTokens = async (): Promise<Token[]> => {
                 volume24h: token.total_volume
             }));
 
-            return processedTokens;
+            localStorage.setItem('alphaTokens', JSON.stringify(resultTokens));
+            localStorage.setItem('alphaTokensTimestamp', Date.now().toString());
+            console.log('Successfully stored tokens in localStorage');
+
+            return resultTokens;
 
         } catch (error) {
             console.error(`Attempt ${retries + 1} failed:`, error);
