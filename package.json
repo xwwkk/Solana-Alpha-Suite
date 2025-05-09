@@ -1,0 +1,37 @@
+{
+  "name": "react-solana-appkit",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@jup-ag/api": "^6.0.41",
+    "@reown/appkit": "1.7.4",
+    "@reown/appkit-adapter-solana": "1.7.4",
+    "@solana/spl-token": "^0.4.13",
+    "@solana/web3.js": "^1.95.8",
+    "bs58": "^6.0.0",
+    "lucide-react": "^0.508.0",
+    "react": "19.0.0",
+    "react-dom": "19.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.3.1",
+    "eslint": "^9.9.0",
+    "eslint-plugin-react-hooks": "^5.1.0-rc.0",
+    "eslint-plugin-react-refresh": "^0.4.9",
+    "globals": "^15.9.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^8.0.1",
+    "vite": "^6.2.0"
+  }
+}
