@@ -64,6 +64,14 @@ export const AlphaScore = () => {
     jitoTip: jitoTip
   });
 
+  // Add useEffect to update fees when jitoTip changes
+  useEffect(() => {
+    setFees(prev => ({
+      ...prev,
+      jitoTip: jitoTip
+    }));
+  }, [jitoTip]);
+
   // 使用工具函数获取代币数据
   useEffect(() => {
     const loadTokens = async () => {

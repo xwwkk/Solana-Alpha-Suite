@@ -735,11 +735,38 @@
     }
 
     .deadline-table-container {
-        overflow-x: auto;
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+
+    .deadline-table-container h3 {
+        font-size: 1rem;
+        margin-bottom: 1rem;
     }
 
     .deadline-table {
-        min-width: 600px;
+        min-width: 500px;
+        font-size: 0.85rem;
+    }
+
+    .deadline-table th,
+    .deadline-table td {
+        padding: 0.75rem 0.5rem;
+    }
+
+    .token-logo-small {
+        width: 24px;
+        height: 24px;
+    }
+
+    .status-indicator {
+        font-size: 0.8rem;
+    }
+
+    .active-dot,
+    .expired-dot {
+        width: 6px;
+        height: 6px;
     }
 
     .jito-tip-section {
@@ -812,6 +839,34 @@
     .tooltip-text {
         font-size: 11px;
         padding: 6px 10px;
+    }
+
+    .deadline-table-container {
+        padding: 0.75rem;
+    }
+
+    .deadline-table-container h3 {
+        font-size: 0.9rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .deadline-table {
+        min-width: 450px;
+        font-size: 0.8rem;
+    }
+
+    .deadline-table th,
+    .deadline-table td {
+        padding: 0.5rem 0.4rem;
+    }
+
+    .token-logo-small {
+        width: 20px;
+        height: 20px;
+    }
+
+    .status-indicator {
+        font-size: 0.75rem;
     }
 }
 
