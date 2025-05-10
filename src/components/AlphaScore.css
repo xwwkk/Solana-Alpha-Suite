@@ -541,6 +541,74 @@
     max-width: 1200px;
     transform: translateX(-50%);
     box-sizing: border-box;
+    overflow-x: auto;
+}
+
+/* Add scroll indicator */
+.deadline-table-container::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 30px;
+    background: linear-gradient(to right, transparent, var(--section-background, #f5f5f5));
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.deadline-table-container.scrollable::after {
+    opacity: 1;
+}
+
+.deadline-table-wrapper {
+    min-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color, #e0e0e0) transparent;
+}
+
+/* Customize scrollbar for webkit browsers */
+.deadline-table-wrapper::-webkit-scrollbar {
+    height: 6px;
+}
+
+.deadline-table-wrapper::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.deadline-table-wrapper::-webkit-scrollbar-thumb {
+    background-color: var(--border-color, #e0e0e0);
+    border-radius: 3px;
+}
+
+/* Add scroll hint text */
+.deadline-table-container::before {
+    content: '← 左右滑动查看更多 →';
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    color: var(--text-secondary, #666666);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.deadline-table-container.scrollable::before {
+    opacity: 1;
+}
+
+/* Dark mode support for scroll indicator */
+[data-theme='dark'] .deadline-table-container::after {
+    background: linear-gradient(to right, transparent, var(--section-background, #2a2a2a));
+}
+
+[data-theme='dark'] .deadline-table-wrapper::-webkit-scrollbar-thumb {
+    background-color: var(--border-color, #404040);
 }
 
 .deadline-table-container h3 {
@@ -552,6 +620,7 @@
 
 .deadline-table {
     width: 100%;
+    min-width: 800px;
     border-collapse: collapse;
     color: var(--text-color, #333333);
 }
@@ -737,21 +806,26 @@
     .deadline-table-container {
         padding: 1rem;
         margin-top: 1rem;
+        width: 100%;
+        left: 0;
+        right: 0;
+        transform: none;
     }
 
-    .deadline-table-container h3 {
-        font-size: 1rem;
-        margin-bottom: 1rem;
+    .deadline-table-container::before {
+        bottom: -20px;
+        font-size: 11px;
     }
 
     .deadline-table {
-        min-width: 500px;
+        min-width: 800px;
         font-size: 0.85rem;
     }
 
     .deadline-table th,
     .deadline-table td {
         padding: 0.75rem 0.5rem;
+        white-space: nowrap;
     }
 
     .token-logo-small {
@@ -843,15 +917,17 @@
 
     .deadline-table-container {
         padding: 0.75rem;
+        margin: 0.75rem -0.75rem;
+        border-radius: 0;
     }
 
-    .deadline-table-container h3 {
-        font-size: 0.9rem;
-        margin-bottom: 0.75rem;
+    .deadline-table-container::before {
+        bottom: -18px;
+        font-size: 10px;
     }
 
     .deadline-table {
-        min-width: 450px;
+        min-width: 800px;
         font-size: 0.8rem;
     }
 
